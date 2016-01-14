@@ -1,0 +1,22 @@
+{
+  "name": "baever",
+  "version": "0.0.0",
+  "description": "Tail the log of a task from elasticsearch",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard && tape test/unit/*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/keis/baever.git"
+  },
+  "keywords": [
+    "elasticsearch"
+  ],
+  "author": "David Keijser <keijser@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/keis/baever/issues"
+  },
+  "homepage": "https://github.com/keis/baever#readme"
+}
