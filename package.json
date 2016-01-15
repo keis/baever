@@ -26,7 +26,8 @@
     "elasticsearch": "^10.1.2",
     "espoll": "^1.1.0",
     "json-loader": "^0.5.4",
-    "terminus": "^1.1.0"
+    "terminus": "^1.1.0",
+    "util-each": "^1.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.4.0",

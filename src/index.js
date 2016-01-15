@@ -1,9 +1,12 @@
 import ESPoll from 'espoll'
 import terminus from 'terminus'
+import each from 'util-each'
 import { Client } from 'elasticsearch'
 import AnsiConvert from 'ansi-to-html'
 
 const ansiConvert = new AnsiConvert({bg: 'none'})
+
+var poll
 
 function watch (options) {
   if (options.host == null) {
@@ -28,12 +31,16 @@ function watch (options) {
 
   const el = document.getElementById('logview')
 
+  el.innerHTML = ''
+
   ep.pipe(terminus({objectMode: true}, (obj, enc, cb) => {
     var line = document.createElement('span')
     line.innerHTML = obj._source['@timestamp'] + ' ' + ansiConvert.toHtml(obj._source.message)
     el.appendChild(line)
     cb()
   }))
+
+  return ep
 }
 
 function parseOpts (s) {
@@ -45,10 +52,21 @@ function parseOpts (s) {
     }, {})
 }
 
-if (window.location.hash) {
-  watch(parseOpts(window.location.hash.substr(1)))
-} else {
-  document.body.innerHTML =
-    '<h1>Configure elasticsearch host and taskId in url fragment</h1>' +
-    '<code>#host=http://elasticsearch.local,taskId=sometask.id<code>'
-}
+document.querySelector('button[name=execute]').addEventListener('click', () => {
+  if (poll != null) {
+    poll.end()
+    poll = null
+  }
+
+  poll = watch({
+    host: document.querySelector('input[name=elasticsearch]').value,
+    taskId: document.querySelector('input[name=taskid]').value
+  })
+})
+
+each(parseOpts(window.location.hash.substr(1)), function (v, k) {
+  var el
+  if ((el = document.querySelector('input[name=' + k + ']')) != null) {
+    el.value = v;
+  }
+})
